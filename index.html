@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- SEO Meta Tags -->
+  <title>DigiCaddy — Golf Smarter. Manage Courses Smoother.</title>
+  <meta name="description" content="AI-powered golf app currently in beta testing. Join the waitlist for early access to AI-powered insights, GPS yardages, and smart course management." />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="DigiCaddy — Golf Smarter. Manage Courses Smoother." />
+  <meta property="og:description" content="AI-powered golf app with GPS precision, weather intelligence, and smart insights. Join the beta waitlist." />
+  <meta property="og:image" content="images/logo.png" />
+  <meta property="og:type" content="website" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="images/logo.png" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'Avenir', 'Helvetica Neue', 'Arial'] },
+          colors: {
+            brand: {
+              primary: '#0A1A2F',
+              secondary: '#FFFFFF',
+              gold: '#C9A356',
+              gray: '#E0E0E0',
+              bg: '#000000'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Styles -->
+  <style>
+    html, body { background: #000000; color: #FFFFFF; }
+    .container { max-width: 1200px; margin: auto; padding: 0 1rem; }
+    @media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+    @media (min-width: 1024px) { .container { padding: 0 2rem; } }
+    
+    .btn { 
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center; 
+      border-radius: 12px; 
+      padding: 14px 24px; 
+      font-weight: 600; 
+      transition: all .2s ease; 
+      text-decoration: none; 
+      font-size: 14px; 
+      min-height: 48px;
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) { 
+      .btn { 
+        border-radius: 16px; 
+        padding: 16px 32px; 
+        font-size: 16px; 
+        min-height: 52px;
+      } 
+    }
+    
+    .btn-primary { background:#C9A356; color:#0A1A2F; box-shadow: 0 4px 12px rgba(201,163,86,.3); }
+    .btn-primary:hover { background:#B8924A; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,163,86,.4); }
+    .btn-outline { border:2px solid #C9A356; color:#C9A356; background: rgba(201,163,86,.05); }
+    .btn-outline:hover { background: rgba(201,163,86,.15); transform: translateY(-1px); }
+    
+    .pill { 
+      background: rgba(201,163,86,.2); 
+      color:#C9A356; 
+      padding:4px 8px; 
+      border-radius:999px; 
+      font-weight:600; 
+      font-size:10px; 
+      display: inline-block; 
+      border: 1px solid rgba(201,163,86,.3);
+      line-height: 1.2;
+    }
+    @media (min-width: 640px) { .pill { padding:6px 12px; font-size:12px; } }
+    @media (min-width: 1024px) { .pill { padding:8px 16px; font-size:14px; } }
+    
+    .muted { color: rgba(255,255,255,.75); }
+    .card { background: linear-gradient(135deg, #0A1A2F 0%, #0F2441 100%); border: 1px solid rgba(201,163,86,.15); border-radius: 16px; padding:1.5rem; transition: all .3s ease; }
+    @media (min-width: 640px) { .card { border-radius: 20px; padding:2rem; } }
+    .card:hover { border-color: rgba(201,163,86,.6); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(201,163,86,.2), 0 0 0 1px rgba(201,163,86,.3); }
+    
+    .section { padding: 60px 0; }
+    @media (min-width: 640px) { .section { padding: 80px 0; } }
+    @media (min-width: 1024px) { .section { padding: 100px 0; } }
+    
+    .hero-section { 
+      height: 100vh; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      position: relative;
+      padding: 20px 0;
+    }
+    @media (min-width: 1024px) { 
+      .hero-section { 
+        padding: 0; 
+      } 
+    }
+    
+    .screenshot { border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,.3); max-width: 140px; width: 100%; height: auto; }
+    @media (min-width: 640px) { .screenshot { border-radius: 20px; max-width: 200px; } }
+    @media (min-width: 1024px) { .screenshot { max-width: 280px; } }
+    
+    .feature-icon { width: 40px; height: 40px; background: rgba(201,163,86,.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    @media (min-width: 640px) { .feature-icon { width: 48px; height: 48px; border-radius: 12px; } }
+    
+    .testimonial { background: rgba(201,163,86,.1); border-left: 4px solid #C9A356; padding: 1rem; border-radius: 12px; margin: 1.5rem 0; }
+    @media (min-width: 640px) { .testimonial { padding: 1.5rem; margin: 2rem 0; } }
+    
+    .live-shimmer {
+      background: linear-gradient(
+        90deg,
+        rgba(201,163,86,0.1) 25%,
+        rgba(201,163,86,0.6) 50%,
+        rgba(201,163,86,0.1) 75%
+      );
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 2s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .scroll-indicator {
+      color: rgba(201,163,86,0.6);
+      font-size: 1.5rem;
+      transition: all 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      animation: bounce 2s infinite;
+      position: static;
+      display: inline-block;
+      margin-left: 8px;
+      z-index: 1000;
+    }
+    @media (min-width: 640px) { 
+      .scroll-indicator { 
+        font-size: 2rem; 
+        position: fixed;
+        right: 40px; 
+        bottom: 40px;
+        margin-left: 0;
+      } 
+    }
+    .scroll-indicator:hover {
+      color: rgba(201,163,86,1);
+      transform: translateY(-2px);
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      60% { transform: translateY(-4px); }
+    }
+    
+    /* Course Management Section Styles */
+    .management-card {
+      background: linear-gradient(135deg, #0A1A2F 0%, #0F2441 100%);
+      border: 1px solid rgba(201,163,86,.15);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all .3s ease;
+    }
+    @media (min-width: 640px) { .management-card { border-radius: 20px; padding: 2rem; } }
+    .management-card:hover {
+      border-color: rgba(201,163,86,.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201,163,86,.2), 0 0 0 1px rgba(201,163,86,.3);
+    }
+    
+    .kpi-tile {
+      background: rgba(201,163,86,.1);
+      border: 1px solid rgba(201,163,86,.3);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #C9A356;
+    }
+    @media (min-width: 640px) { .kpi-tile { font-size: 1rem; } }
+    
+    .dashboard-preview {
+      background: linear-gradient(135deg, #0A1A2F 0%, #0F2441 100%);
+      border: 1px solid rgba(201,163,86,.2);
+      border-radius: 20px;
+      padding: 2rem;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .pace-timeline {
+      width: 100%;
+      height: 60px;
+      background: rgba(255,255,255,.05);
+      border-radius: 8px;
+      margin: 1rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .heat-block {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .management-card { transition: none; }
+      .management-card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container w-full max-w-4xl">
+      <div class="flex flex-col items-center justify-center space-y-4 sm:space-y-6">
+        <img src="images/logo_nb.png" alt="DigiCaddy Logo" class="h-10 w-auto sm:h-16 md:h-20" />
+        
+        <span class="pill text-xs sm:text-sm -mt-1 sm:mt-0">Beta</span>
+        
+        <h1 class="font-extrabold leading-tight px-4 max-w-4xl" 
+            style="font-size: clamp(1.75rem, 8vw, 4rem); line-height: 1.1;">
+          Golf Smarter.<br />Manage Courses Smoother.
+        </h1>
+        
+        <p class="max-w-2xl mx-auto muted leading-relaxed px-4" 
+           style="font-size: clamp(0.875rem, 4vw, 1.25rem);">
+          The next-generation golf app is coming soon. Get AI-powered insights, precision GPS yardages, and smart course management tools. Be among the first to experience the future of golf technology.
+        </p>
+        
+        <!-- Credibility badges -->
+        <div class="flex flex-wrap justify-center gap-1.5 px-4 max-w-2xl sm:gap-2">
+          <span class="pill text-xs">Powered by AI</span>
+          <span class="pill text-xs">Integrates with Toptracer & Inrange</span>
+          <span class="pill text-xs">Beta opening soon</span>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="flex flex-col w-full max-w-sm mx-auto gap-3 px-4 sm:flex-row sm:max-w-none sm:w-auto sm:gap-4">
+          <a href="#contact" class="btn btn-primary w-full sm:w-auto min-w-44">Join the Waitlist</a>
+          <a href="#features" class="btn btn-outline w-full sm:w-auto min-w-44">Explore Features</a>
+        </div>
+        
+        <!-- Mobile Scroll Indicator -->
+        <div class="mt-4 sm:hidden text-center">
+          <a href="#features" class="scroll-indicator">
+            ↓
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll Indicator (desktop only) -->
+    <a href="#features" class="scroll-indicator hidden sm:block">
+      ↓
+    </a>
+  </section>
+
+  <section id="features" class="section">
+    <div class="container">
+      <div class="text-center mb-12 sm:mb-16">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4">Coming soon: Everything you need to elevate your game</h2>
+        <p class="text-base sm:text-lg md:text-xl muted max-w-3xl mx-auto px-4">DigiCaddy is being built to provide the insights that matter most to serious golfers. Here's what we're developing:</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <span class="text-xl sm:text-2xl">🧠</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">AI Insights</h3>
+          <p class="muted text-sm sm:text-base">Powered by AI: Analyzing your past shots and suggesting the smartest play in real time.</p>
+        </div>
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <span class="text-xl sm:text-2xl">🚩</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Precision GPS</h3>
+          <p class="muted text-sm sm:text-base">Get exact yardages to pins, hazards, and layup zones with professional-grade accuracy.</p>
+        </div>
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <span class="text-xl sm:text-2xl">🌪️</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Weather Intelligence</h3>
+          <p class="muted text-sm sm:text-base">Real-time wind speed, direction, and conditions help you choose the right club every time.</p>
+        </div>
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <span class="text-xl sm:text-2xl">⚡</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Course Management</h3>
+          <p class="muted text-sm sm:text-base">Smart insights for course operators to optimize pace of play and enhance player experience.</p>
+        </div>
+      </div>
+      
+      <div class="text-center mb-12 sm:mb-16">
+        <a href="#ai-insights" class="inline-flex items-center gap-2 text-brand-gold hover:text-white transition-colors group">
+          <span class="text-base sm:text-lg font-medium">See DigiCaddy in action</span>
+          <span class="transform group-hover:translate-x-1 transition-transform">→</span>
+        </a>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Preview the future of golf tech</h3>
+          <div class="space-y-4 sm:space-y-6">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div class="bg-brand-gold rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-brand-primary font-bold text-xs sm:text-sm flex-shrink-0 mt-1">1</div>
+              <div>
+                <h4 class="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Track every shot with GPS precision</h4>
+                <p class="muted text-sm">Our beta testers are already recording distances, club selection, and shot outcomes.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div class="bg-brand-gold rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-brand-primary font-bold text-xs sm:text-sm flex-shrink-0 mt-1">2</div>
+              <div>
+                <h4 class="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Get intelligent recommendations</h4>
+                <p class="muted text-sm">AI is being trained to analyze patterns and suggest optimal strategies and club choices.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div class="bg-brand-gold rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-brand-primary font-bold text-xs sm:text-sm flex-shrink-0 mt-1">3</div>
+              <div>
+                <h4 class="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Review detailed scorecards</h4>
+                <p class="muted text-sm">Comprehensive round analysis with statistics designed to help you improve faster.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center items-center gap-3 sm:gap-4 lg:gap-6 mt-8 lg:mt-0">
+          <img src="images/map_screen.png" class="screenshot" alt="GPS mapping interface" loading="lazy" />
+          <img src="images/scorecard_screen.png" class="screenshot" alt="Digital scorecard" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI-Powered Insights Section -->
+<section id="ai-insights" class="section bg-brand-primary relative overflow-hidden">
+  <!-- Background gradient -->
+  <div class="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary to-transparent opacity-90"></div>
+
+  <div class="container relative z-10">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <!-- Left: copy -->
+      <div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-gold mb-3 sm:mb-4">Meet Your AI Caddy</h2>
+        <p class="text-base sm:text-lg md:text-xl muted max-w-2xl">
+          Every swing you've taken makes your next one smarter. DigiCaddy learns from
+          <span class="font-semibold">Toptracer</span>, <span class="font-semibold">Inrange</span>,
+          and your logged rounds to give <span class="font-semibold">live, shot-by-shot recommendations</span> on the course.
+        </p>
+
+        <!-- Data source badges -->
+        <div class="mt-4 sm:mt-5 flex flex-wrap gap-2">
+          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">Toptracer</span>
+          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">Inrange</span>
+          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">DigiCaddy Sessions</span>
+        </div>
+
+        <!-- How it works -->
+        <div class="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-white/80">
+          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
+            <p class="text-xs sm:text-sm font-semibold text-white">Ingests data</p>
+            <p class="text-xs sm:text-sm">Shots • Clubs • Weather • Course</p>
+          </div>
+          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
+            <p class="text-xs sm:text-sm font-semibold text-white">Learns patterns</p>
+            <p class="text-xs sm:text-sm">Tendencies by club/hole</p>
+          </div>
+          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
+            <p class="text-xs sm:text-sm font-semibold text-white">Suggests next shot</p>
+            <p class="text-xs sm:text-sm">Club • aim • adjustment</p>
+          </div>
+        </div>
+
+        <!-- Benefits (hoverable) -->
+        <div class="space-y-3 sm:space-y-4 mt-4 sm:mt-6">
+          <button class="w-full text-left flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-black/20 rounded-lg border border-brand-gold/20 hover:border-brand-gold/60 transition">
+            <div class="text-lg sm:text-2xl flex-shrink-0" aria-hidden="true">🎯</div>
+            <div>
+              <h4 class="font-semibold text-brand-gold mb-1 text-sm sm:text-base">Play Smarter</h4>
+              <p class="muted text-xs sm:text-sm">Real-time AI shot recommendations</p>
+            </div>
+          </button>
+          <button class="w-full text-left flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-black/20 rounded-lg border border-brand-gold/20 hover:border-brand-gold/60 transition">
+            <div class="text-lg sm:text-2xl flex-shrink-0" aria-hidden="true">⛳</div>
+            <div>
+              <h4 class="font-semibold text-brand-gold mb-1 text-sm sm:text-base">Pick the Right Club</h4>
+              <p class="muted text-xs sm:text-sm">Suggestions tailored to your patterns</p>
+            </div>
+          </button>
+          <button class="w-full text-left flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-black/20 rounded-lg border border-brand-gold/20 hover:border-brand-gold/60 transition">
+            <div class="text-lg sm:text-2xl flex-shrink-0" aria-hidden="true">📊</div>
+            <div>
+              <h4 class="font-semibold text-brand-gold mb-1 text-sm sm:text-base">Improve Every Round</h4>
+              <p class="muted text-xs sm:text-sm">Post-round insights that track progress</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Live Suggestion mock (placeholder until screenshot is ready) -->
+      <div class="flex justify-center mt-8 lg:mt-0">
+        <div class="w-full max-w-sm sm:max-w-md rounded-xl sm:rounded-2xl border border-brand-gold/50 bg-white/5 backdrop-blur p-4 sm:p-6 shadow-card">
+          <div class="text-center">
+            <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-gold tracking-tight">149 yds</div>
+            <p class="mt-1 text-white/70 text-xs sm:text-sm">Par 4 • Slight uphill • Crosswind</p>
+          </div>
+
+          <div class="mt-4 sm:mt-6 grid grid-cols-3 gap-2 sm:gap-3">
+            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
+              <p class="text-xs text-white/60">Club</p>
+              <p class="font-semibold text-xs sm:text-sm">8-iron</p>
+            </div>
+            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
+              <p class="text-xs text-white/60">Aim</p>
+              <p class="font-semibold text-xs sm:text-sm">5 yds left</p>
+            </div>
+            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
+              <p class="text-xs text-white/60">Adjust</p>
+              <p class="font-semibold text-xs sm:text-sm">+6 yds wind</p>
+            </div>
+          </div>
+
+          <div class="mt-4 sm:mt-6 rounded-lg sm:rounded-xl border border-white/10 bg-white/10 p-3 sm:p-4">
+            <p class="text-xs sm:text-sm text-white/80">
+              <span class="font-semibold text-brand-gold">Why:</span>
+              Past 8-iron shots land short in crosswinds. Adding +6 yds raises GIR odds by ~12% on similar lies.
+            </p>
+          </div>
+
+          <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
+            <span class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] bg-brand-gold/20 text-brand-gold border border-brand-gold/40">Beta Preview</span>
+            <span class="text-[10px] sm:text-xs text-white/50">Screenshot coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Course Management Section -->
+  <section id="course-management" class="section">
+    <div class="container">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-4 sm:mb-6">Smarter Course Management</h2>
+        <p class="text-base sm:text-lg md:text-xl muted mb-8 sm:mb-10 max-w-3xl mx-auto">
+          Slow play frustrates golfers, inefficient tee sheets waste revenue, and you're missing opportunities every round. DigiCaddy's operations dashboard eliminates bottlenecks, maximizes bookings, and turns every golfer interaction into additional revenue.
+        </p>
+        
+        <!-- Hero Dashboard Preview -->
+        <div class="max-w-2xl mx-auto mb-12 sm:mb-16">
+          <div class="dashboard-preview" role="img" aria-label="Dashboard preview mockup showing pace of play timeline">
+            <h3 class="text-lg sm:text-xl font-semibold text-brand-gold mb-2">Live Operations Dashboard</h3>
+            <p class="text-sm muted mb-4">See pace issues before they become problems</p>
+            
+            <!-- Pace Timeline Mockup -->
+            <div class="pace-timeline">
+              <div class="heat-block bg-green-500/60" style="left: 0%; width: 15%;"></div>
+              <div class="heat-block bg-yellow-500/60" style="left: 20%; width: 25%;"></div>
+              <div class="heat-block bg-red-500/60" style="left: 50%; width: 20%;"></div>
+              <div class="heat-block bg-green-500/60" style="left: 75%; width: 20%;"></div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2 text-xs text-center w-full">
+              <div class="p-2 bg-white/5 rounded">
+                <div class="font-semibold text-green-400">On Time</div>
+                <div class="muted">12 groups</div>
+              </div>
+              <div class="p-2 bg-white/5 rounded">
+                <div class="font-semibold text-yellow-400">Delayed</div>
+                <div class="muted">3 groups</div>
+              </div>
+              <div class="p-2 bg-white/5 rounded">
+                <div class="font-semibold text-red-400">Backup</div>
+                <div class="muted">1 group</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Four Features Section -->
+      <div class="mt-12 sm:mt-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
+          <div class="management-card">
+            <div class="feature-icon mb-4">
+              <span class="text-xl sm:text-2xl">🚨</span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-brand-gold">Stop Backups Before They Start</h3>
+            <p class="muted text-sm sm:text-base mb-3">Get instant alerts when groups fall behind pace. Rangers receive specific hole locations and group details to intervene early. <strong class="text-brand-gold font-semibold">12% reduction in average wait times.</strong></p>
+          </div>
+          
+          <div class="management-card">
+            <div class="feature-icon mb-4">
+              <span class="text-xl sm:text-2xl">⛳</span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-brand-gold">Fill Every Tee Time</h3>
+            <p class="muted text-sm sm:text-base mb-3">AI suggests optimal booking intervals based on historical flow patterns. Automatically identifies and fills gaps during peak hours. <strong class="text-brand-gold font-semibold">7% increase in tee utilization.</strong></p>
+          </div>
+          
+          <div class="management-card">
+            <div class="feature-icon mb-4">
+              <span class="text-xl sm:text-2xl">⭐</span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-brand-gold">Keep Players Coming Back</h3>
+            <p class="muted text-sm sm:text-base mb-3">Track satisfaction scores and app usage to identify what drives loyalty. Happy golfers book more rounds. <strong class="text-brand-gold font-semibold">23% more repeat bookings from satisfied players.</strong></p>
+          </div>
+          
+          <div class="management-card">
+            <div class="feature-icon mb-4">
+              <span class="text-xl sm:text-2xl">💵</span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-brand-gold">Boost Every Round's Value</h3>
+            <p class="muted text-sm sm:text-base mb-3">Smart prompts for F&B, pro shop, and cart upgrades based on player location and behavior patterns. Turn every round into higher revenue. <strong class="text-brand-gold font-semibold">9% increase in F&B revenue per round.</strong></p>
+          </div>
+        </div>
+        
+        <!-- Impact Metrics Bar -->
+        <div class="text-center mb-8 sm:mb-10">
+          <h3 class="text-xl font-semibold text-brand-gold mb-4">Proven Impact</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div class="kpi-tile">
+              <div class="text-2xl mb-2">⏱️</div>
+              <div class="text-2xl font-bold text-brand-gold">−12%</div>
+              <div class="text-sm">Average Wait Time</div>
+            </div>
+            <div class="kpi-tile">
+              <div class="text-2xl mb-2">⛳</div>
+              <div class="text-2xl font-bold text-brand-gold">+7%</div>
+              <div class="text-sm">Tee Utilization</div>
+            </div>
+            <div class="kpi-tile">
+              <div class="text-2xl mb-2">🍔</div>
+              <div class="text-2xl font-bold text-brand-gold">+9%</div>
+              <div class="text-sm">F&B Revenue Uplift</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Operator CTAs -->
+        <div class="text-center">
+          <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+            <a href="#contact" class="btn btn-primary w-full sm:w-auto min-w-48">Request Demo</a>
+            <a href="#contact" class="btn btn-outline w-full sm:w-auto min-w-48">Partner with Us</a>
+          </div>
+          
+          <!-- Scale Note -->
+          <p class="text-sm muted">
+            Built to scale from single courses to multi-site operations.
+          </p>
+        </div>
+      </div>
+        
+
+    </div>
+  </section>
+
+  <!-- Progress & Trust Section -->
+  <section class="section">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div class="flex justify-center order-2 lg:order-1">
+          <img src="images/session_review_screen.png" class="screenshot" alt="Round analysis and insights" loading="lazy" />
+        </div>
+        <div class="order-1 lg:order-2">
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-4 sm:mb-6">Early beta results are promising</h2>
+          <p class="text-base sm:text-lg md:text-xl muted mb-6 sm:mb-8">Our current beta testers are seeing real improvements in their game with detailed analytics, trend tracking, and personalized insights in development.</p>
+          
+          <!-- Trust Card -->
+          <div class="card mb-6 sm:mb-8">
+            <h4 class="font-semibold text-brand-gold mb-2 sm:mb-3 text-base sm:text-lg">Beta Success Story</h4>
+            <p class="muted text-sm sm:text-base">Beta testers have already used DigiCaddy to identify where they lose strokes and how to adjust mid-round.</p>
+          </div>
+
+          <!-- Testimonial -->
+          <div class="testimonial">
+            <p class="italic mb-2 sm:mb-3 text-sm sm:text-base">"The AI recommendations helped me realize I was consistently short on approach shots. Now I'm hitting greens 30% more often."</p>
+            <p class="text-xs sm:text-sm text-brand-gold">— Beta Tester, Handicap 12</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 sm:gap-6">
+            <div class="text-center sm:text-left">
+              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">15+</div>
+              <p class="muted text-sm sm:text-base">Performance metrics in development</p>
+            </div>
+            <div class="text-center sm:text-left">
+              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">Beta Testing</div>
+              <p class="muted text-sm sm:text-base">Active development phase</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container text-center">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">Built by golfers, for golfers</h2>
+      <p class="text-base sm:text-lg md:text-xl muted max-w-4xl mx-auto mb-6 sm:mb-8 px-4">
+        Created by Manav Shah, a Computer Engineering graduate from Purdue University and passionate golfer. DigiCaddy was born from the desire to bring professional-level insights to every golfer's game.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 px-4">
+        <a href="https://github.com" target="_blank" class="btn btn-outline w-full sm:w-auto">View on GitHub</a>
+        <a href="https://linkedin.com" target="_blank" class="btn btn-outline w-full sm:w-auto">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Waitlist Section -->
+  <section id="contact" class="section bg-brand-primary text-center">
+    <div class="container">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-3 sm:mb-4 px-4">Get Early Access to AI-Powered Golf</h2>
+      <p class="text-base sm:text-lg md:text-xl muted mb-8 sm:mb-10 max-w-3xl mx-auto px-4">Join our exclusive waitlist and be among the first to experience the future of golf technology when we launch.</p>
+      <form name="waitlist" method="POST" data-netlify="true" class="max-w-lg mx-auto px-4">
+        <div class="card">
+          <input type="hidden" name="form-name" value="waitlist" />
+          <div class="space-y-3 sm:space-y-4">
+            <input name="name" placeholder="Your Name" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
+            <input type="email" name="email" placeholder="Email Address" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
+            <textarea name="message" placeholder="Optional: Tell us about your golf course or specific interests" rows="3" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
+            <button type="submit" class="btn btn-primary w-full text-base sm:text-lg py-3 sm:py-4">Join the Waitlist</button>
+          </div>
+          <p class="text-xs sm:text-sm muted mt-3 sm:mt-4">Be the first to know when DigiCaddy launches • No spam, ever</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 sm:py-12 text-center border-t border-white/10">
+    <div class="container">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <img src="images/logo.png" alt="DigiCaddy Logo" class="h-6 sm:h-8 w-auto" loading="lazy" />
+          <span class="font-semibold text-sm sm:text-base">DigiCaddy</span>
+        </div>
+        <p class="muted text-xs sm:text-sm">© <span id="y"></span> DigiCaddy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    
+    // Show/hide scroll indicators based on scroll position
+    function toggleScrollIndicators() {
+      const scrollIndicators = document.querySelectorAll('.scroll-indicator');
+      const isAtTop = window.scrollY < 100; // Show when within 100px of top
+      
+      scrollIndicators.forEach(indicator => {
+        if (isAtTop) {
+          indicator.style.opacity = '1';
+          indicator.style.visibility = 'visible';
+        } else {
+          indicator.style.opacity = '0';
+          indicator.style.visibility = 'hidden';
+        }
+      });
+    }
+    
+    // Run on scroll
+    window.addEventListener('scroll', toggleScrollIndicators);
+    
+    // Run on page load
+    toggleScrollIndicators();
+  </script>
+</body>
+</html>
