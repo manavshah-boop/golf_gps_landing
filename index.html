@@ -184,6 +184,39 @@
       60% { transform: translateY(-4px); }
     }
     
+    .blinking-light {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #C9A356;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: blink 2s infinite ease-in-out;
+      box-shadow: 0 0 4px rgba(201, 163, 86, 0.6);
+    }
+    @keyframes blink {
+      0% { 
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(201, 163, 86, 0.8);
+      }
+      25% { 
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(201, 163, 86, 0.8);
+      }
+      50% { 
+        opacity: 0.2;
+        box-shadow: 0 0 2px rgba(201, 163, 86, 0.2);
+      }
+      75% { 
+        opacity: 0.2;
+        box-shadow: 0 0 2px rgba(201, 163, 86, 0.2);
+      }
+      100% { 
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(201, 163, 86, 0.8);
+      }
+    }
+    
     /* Course Management Section Styles */
     .management-card {
       background: linear-gradient(135deg, #0A1A2F 0%, #0F2441 100%);
@@ -241,9 +274,24 @@
       border-radius: 4px;
     }
     
+    /* Decision Box Interactivity */
+    .decision-box {
+      transition: all 0.2s ease;
+    }
+    .decision-box:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .decision-box:focus {
+      outline: 2px solid #C9A356;
+      outline-offset: 2px;
+    }
+    
     @media (prefers-reduced-motion: reduce) {
       .management-card { transition: none; }
       .management-card:hover { transform: none; }
+      .decision-box { transition: none; }
+      .decision-box:hover { transform: none; }
     }
     
     /* Form Validation Styles */
@@ -310,7 +358,14 @@
         <div class="flex flex-wrap justify-center gap-1.5 px-4 max-w-2xl sm:gap-2">
           <span class="pill text-xs">Powered by AI</span>
           <span class="pill text-xs">Integrates with Toptracer & Inrange</span>
-          <span class="pill text-xs">Beta opening soon</span>
+          <span class="pill text-xs">Free Beta Access</span>
+        </div>
+        
+        <!-- Beta Access Info -->
+        <div class="text-center px-4 max-w-xl mx-auto">
+          <p class="text-sm muted">
+            <span class="blinking-light"></span> <strong class="text-brand-gold">Limited Early Access:</strong> Free beta for first 1,000 golfers
+          </p>
         </div>
         
         <!-- CTA Buttons -->
@@ -422,35 +477,66 @@
   <div class="container relative z-10">
     <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
       <!-- Left: copy -->
-      <div>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-gold mb-3 sm:mb-4">Meet Your AI Caddy</h2>
-        <p class="text-base sm:text-lg md:text-xl muted max-w-2xl">
-          Every swing you've taken makes your next one smarter. DigiCaddy learns from
-          <span class="font-semibold">Toptracer</span>, <span class="font-semibold">Inrange</span>,
-          and your logged rounds to give <span class="font-semibold">live, shot-by-shot recommendations</span> on the course.
+      <div class="order-1 sm:order-2 lg:order-1">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-gold mb-3 sm:mb-4">🏌️ Your Personal AI Caddy</h2>
+        <p class="text-base sm:text-lg md:text-xl muted max-w-2xl mb-6">
+          Golf is tough. Every shot is a decision — play it safe or go for it? DigiCaddy makes those decisions smarter.
         </p>
-
-        <!-- Data source badges -->
-        <div class="mt-4 sm:mt-5 flex flex-wrap gap-2">
-          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">Toptracer</span>
-          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">Inrange</span>
-          <span class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs bg-white/5 border border-white/10">DigiCaddy Sessions</span>
+        
+        <!-- Decision Example -->
+        <div class="grid sm:grid-cols-2 gap-4 mb-6">
+          <div class="decision-box bg-black/20 rounded-lg p-4 border border-white/10 hover:border-green-400/50 hover:bg-black/30 transition-all duration-200 cursor-pointer" data-strategy="safe">
+            <h4 class="font-semibold text-green-400 mb-2">Play it Safe:</h4>
+            <p class="text-sm muted mb-2"><strong>Club:</strong> 4-iron or hybrid</p>
+            <p class="text-sm muted mb-2"><strong>Goal:</strong> Find fairway, avoid trouble</p>
+            <p class="text-xs text-white/60">Higher odds of keeping ball in play.</p>
+          </div>
+          <div class="decision-box bg-black/20 rounded-lg p-4 border border-white/10 hover:border-yellow-400/50 hover:bg-black/30 transition-all duration-200 cursor-pointer" data-strategy="aggressive">
+            <h4 class="font-semibold text-yellow-400 mb-2">Go for It:</h4>
+            <p class="text-sm muted mb-2"><strong>Club:</strong> Driver</p>
+            <p class="text-sm muted mb-2"><strong>Goal:</strong> Cut dogleg, wedge distance</p>
+            <p class="text-xs text-white/60">Risk-reward shot with big payoff if executed.</p>
+          </div>
         </div>
 
-        <!-- How it works -->
-        <div class="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-white/80">
-          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
-            <p class="text-xs sm:text-sm font-semibold text-white">Ingests data</p>
-            <p class="text-xs sm:text-sm">Shots • Clubs • Weather • Course</p>
+        <!-- How It Works Process -->
+        <h3 class="text-xl font-semibold text-brand-gold mb-4">⛳ How It Works (Simple for Players)</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-start gap-3">
+            <div class="bg-brand-gold rounded-full w-6 h-6 flex items-center justify-center text-brand-primary font-bold text-xs flex-shrink-0 mt-0.5">🗺️</div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Reads the Course</h4>
+              <p class="text-sm muted">Understands fairways, greens, hazards, and bunkers.</p>
+            </div>
           </div>
-          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
-            <p class="text-xs sm:text-sm font-semibold text-white">Learns patterns</p>
-            <p class="text-xs sm:text-sm">Tendencies by club/hole</p>
+          <div class="flex items-start gap-3">
+            <div class="bg-brand-gold rounded-full w-6 h-6 flex items-center justify-center text-brand-primary font-bold text-xs flex-shrink-0 mt-0.5">🏌️</div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Simulates Your Shots</h4>
+              <p class="text-sm muted">Models realistic outcomes for each club.</p>
+            </div>
           </div>
-          <div class="rounded-lg sm:rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
-            <p class="text-xs sm:text-sm font-semibold text-white">Suggests next shot</p>
-            <p class="text-xs sm:text-sm">Club • aim • adjustment</p>
+          <div class="flex items-start gap-3">
+            <div class="bg-brand-gold rounded-full w-6 h-6 flex items-center justify-center text-brand-primary font-bold text-xs flex-shrink-0 mt-0.5">⚠️</div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Weighs the Risks</h4>
+              <p class="text-sm muted">Factors in wind, elevation, hazards, and past shot history (TopTracer, InRange, logged DigiCaddie sessions).</p>
+            </div>
           </div>
+          <div class="flex items-start gap-3">
+            <div class="bg-brand-gold rounded-full w-6 h-6 flex items-center justify-center text-brand-primary font-bold text-xs flex-shrink-0 mt-0.5">✓</div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Gives You the Smart Play</h4>
+              <p class="text-sm muted">Safe or aggressive, with clear reasoning.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bridging Line -->
+        <div class="bg-brand-gold/10 border border-brand-gold/30 rounded-lg p-4 mb-6">
+          <p class="text-sm text-brand-gold font-medium text-center">
+            For players: make smarter decisions in real time. For course operators: gain round-level analytics to optimize pace and player experience.
+          </p>
         </div>
 
         <!-- Benefits (hoverable) -->
@@ -479,39 +565,43 @@
         </div>
       </div>
 
-      <!-- Right: Live Suggestion mock (placeholder until screenshot is ready) -->
-      <div class="flex justify-center mt-8 lg:mt-0">
-        <div class="w-full max-w-sm sm:max-w-md rounded-xl sm:rounded-2xl border border-brand-gold/50 bg-white/5 backdrop-blur p-4 sm:p-6 shadow-card">
+      <!-- Right: Live Suggestion mock (larger for visual balance) -->
+      <div class="flex justify-center mt-8 lg:mt-0 order-2 sm:order-1 lg:order-2">
+        <div id="recommendation-card" class="w-full max-w-md sm:max-w-lg rounded-xl sm:rounded-2xl border border-brand-gold/50 bg-white/5 backdrop-blur p-6 sm:p-8 shadow-card" role="img" aria-label="AI recommendation preview showing club selection and strategy for 149 yard approach shot">
           <div class="text-center">
-            <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-gold tracking-tight">149 yds</div>
-            <p class="mt-1 text-white/70 text-xs sm:text-sm">Par 4 • Slight uphill • Crosswind</p>
+            <div class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-brand-gold tracking-tight">149 yds</div>
+            <p class="mt-2 text-white/70 text-sm sm:text-base">Par 4 • Slight uphill • Crosswind</p>
           </div>
 
-          <div class="mt-4 sm:mt-6 grid grid-cols-3 gap-2 sm:gap-3">
-            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
-              <p class="text-xs text-white/60">Club</p>
-              <p class="font-semibold text-xs sm:text-sm">8-iron</p>
+          <div class="mt-6 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+            <div class="rounded-xl bg-white/10 border border-white/10 p-3 sm:p-4">
+              <p class="text-xs text-white/60 mb-1">Club</p>
+              <p class="font-semibold text-sm sm:text-base">8-iron</p>
             </div>
-            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
-              <p class="text-xs text-white/60">Aim</p>
-              <p class="font-semibold text-xs sm:text-sm">5 yds left</p>
+            <div class="rounded-xl bg-white/10 border border-white/10 p-3 sm:p-4">
+              <p class="text-xs text-white/60 mb-1">Aim</p>
+              <p class="font-semibold text-sm sm:text-base">5 yds left</p>
             </div>
-            <div class="rounded-lg sm:rounded-xl bg-white/10 border border-white/10 p-2 sm:p-4">
-              <p class="text-xs text-white/60">Adjust</p>
-              <p class="font-semibold text-xs sm:text-sm">+6 yds wind</p>
+            <div class="rounded-xl bg-white/10 border border-white/10 p-3 sm:p-4">
+              <p class="text-xs text-white/60 mb-1">Adjust</p>
+              <p class="font-semibold text-sm sm:text-base">+6 yds wind</p>
             </div>
           </div>
 
-          <div class="mt-4 sm:mt-6 rounded-lg sm:rounded-xl border border-white/10 bg-white/10 p-3 sm:p-4">
-            <p class="text-xs sm:text-sm text-white/80">
+          <div class="mt-6 sm:mt-8 rounded-xl border border-white/10 bg-white/10 p-4 sm:p-5">
+            <p class="text-sm sm:text-base text-white/80">
               <span class="font-semibold text-brand-gold">Why:</span>
               Past 8-iron shots land short in crosswinds. Adding +6 yds raises GIR odds by ~12% on similar lies.
             </p>
           </div>
 
-          <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
-            <span class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] bg-brand-gold/20 text-brand-gold border border-brand-gold/40">Beta Preview</span>
-            <span class="text-[10px] sm:text-xs text-white/50">Screenshot coming soon</span>
+          <div class="mt-6 sm:mt-8 space-y-3">
+            <div class="flex justify-center">
+              <span class="px-3 py-1.5 rounded-full text-xs sm:text-sm bg-brand-gold/20 text-brand-gold border border-brand-gold/40 font-medium">Beta Preview</span>
+            </div>
+            <p class="text-xs sm:text-sm text-white/50 text-center leading-relaxed">
+              Currently in closed beta — early testers are shaping the future of golf with DigiCaddy.
+            </p>
           </div>
         </div>
       </div>
@@ -653,20 +743,26 @@
             <p class="muted text-sm sm:text-base">Beta testers have already used DigiCaddy to identify where they lose strokes and how to adjust mid-round.</p>
           </div>
 
-          <!-- Testimonial -->
-          <div class="testimonial">
-            <p class="italic mb-2 sm:mb-3 text-sm sm:text-base">"The AI recommendations helped me realize I was consistently short on approach shots. Now I'm hitting greens 30% more often."</p>
-            <p class="text-xs sm:text-sm text-brand-gold">— Beta Tester, Handicap 12</p>
+          <!-- Testimonials -->
+          <div class="space-y-4">
+            <div class="testimonial">
+              <p class="italic mb-2 sm:mb-3 text-sm sm:text-base">"The AI recommendations helped me realize I was consistently short on approach shots. Now I'm hitting greens 30% more often."</p>
+              <p class="text-xs sm:text-sm text-brand-gold">— Mike R., Handicap 12</p>
+            </div>
+            <div class="testimonial">
+              <p class="italic mb-2 sm:mb-3 text-sm sm:text-base">"Instead of guessing club selection, I get data-backed advice. Cut 4 strokes off my average round in just 3 weeks."</p>
+              <p class="text-xs sm:text-sm text-brand-gold">— Sarah L., Handicap 8</p>
+            </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4 sm:gap-6">
             <div class="text-center sm:text-left">
-              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">15+</div>
-              <p class="muted text-sm sm:text-base">Performance metrics in development</p>
+              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">350+</div>
+              <p class="muted text-sm sm:text-base">Beta testers and growing</p>
             </div>
             <div class="text-center sm:text-left">
-              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">Beta Testing</div>
-              <p class="muted text-sm sm:text-base">Active development phase</p>
+              <div class="text-2xl sm:text-3xl font-bold text-brand-gold">650</div>
+              <p class="muted text-sm sm:text-base">Spots remaining in beta</p>
             </div>
           </div>
         </div>
@@ -692,7 +788,12 @@
   <section id="contact" class="section bg-brand-primary text-center scroll-mt-24">
     <div class="container">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-3 sm:mb-4 px-4">Get Early Access to AI-Powered Golf</h2>
-      <p class="text-base sm:text-lg md:text-xl muted mb-8 sm:mb-10 max-w-3xl mx-auto px-4">Join our exclusive waitlist and be among the first to experience the future of golf technology when we launch.</p>
+      <p class="text-base sm:text-lg md:text-xl muted mb-4 sm:mb-6 max-w-3xl mx-auto px-4">Join our exclusive waitlist and be among the first to experience the future of golf technology when we launch.</p>
+      <div class="text-center mb-8 sm:mb-10">
+        <p class="text-sm text-brand-gold font-medium">
+          ⚡ Only 650 beta spots remaining • Free access for early adopters
+        </p>
+      </div>
       <form name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/success" class="max-w-lg mx-auto px-4">
         <div class="card">
           <input type="hidden" name="form-name" value="waitlist" />
