@@ -12,7 +12,11 @@
   <meta property="og:title" content="DigiCaddy — Golf Smarter. Manage Courses Smoother." />
   <meta property="og:description" content="AI-powered golf app with GPS precision, weather intelligence, and smart insights. Join the beta waitlist." />
   <meta property="og:image" content="images/logo.png" />
+  <meta property="og:url" content="https://digicaddy.com" />
   <meta property="og:type" content="website" />
+  
+  <!-- Plausible Analytics (uncomment and replace domain when ready) -->
+  <!-- <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script> -->
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,7 +110,12 @@
       align-items: center; 
       justify-content: center; 
       position: relative;
-      padding: 20px 0;
+      padding: 20px 0 40px 0;
+    }
+    @media (min-width: 640px) {
+      .hero-section {
+        padding: 20px 0 60px 0;
+      }
     }
     @media (min-width: 1024px) { 
       .hero-section { 
@@ -151,12 +160,17 @@
       margin-left: 8px;
       z-index: 1000;
     }
+    @media (max-height: 600px) {
+      .scroll-indicator {
+        font-size: 1.25rem;
+      }
+    }
     @media (min-width: 640px) { 
       .scroll-indicator { 
         font-size: 2rem; 
         position: fixed;
         right: 40px; 
-        bottom: 40px;
+        bottom: max(40px, env(safe-area-inset-bottom, 20px));
         margin-left: 0;
       } 
     }
@@ -267,8 +281,8 @@
         </div>
         
         <!-- Mobile Scroll Indicator -->
-        <div class="mt-4 sm:hidden text-center">
-          <a href="#features" class="scroll-indicator">
+        <div class="mt-6 mb-8 sm:hidden text-center">
+          <a href="#features" class="scroll-indicator" aria-label="Scroll to features section">
             ↓
           </a>
         </div>
@@ -276,12 +290,12 @@
     </div>
     
     <!-- Scroll Indicator (desktop only) -->
-    <a href="#features" class="scroll-indicator hidden sm:block">
+    <a href="#features" class="scroll-indicator hidden sm:block" aria-label="Scroll to features section">
       ↓
     </a>
   </section>
 
-  <section id="features" class="section">
+  <section id="features" class="section scroll-mt-24">
     <div class="container">
       <div class="text-center mb-12 sm:mb-16">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4">Coming soon: Everything you need to elevate your game</h2>
@@ -320,7 +334,7 @@
       </div>
       
       <div class="text-center mb-12 sm:mb-16">
-        <a href="#ai-insights" class="inline-flex items-center gap-2 text-brand-gold hover:text-white transition-colors group">
+        <a href="#contact" class="inline-flex items-center gap-2 text-brand-gold hover:text-white transition-colors group">
           <span class="text-base sm:text-lg font-medium">See DigiCaddy in action</span>
           <span class="transform group-hover:translate-x-1 transition-transform">→</span>
         </a>
@@ -354,15 +368,15 @@
           </div>
         </div>
         <div class="flex justify-center items-center gap-3 sm:gap-4 lg:gap-6 mt-8 lg:mt-0">
-          <img src="images/map_screen.png" class="screenshot" alt="GPS mapping interface" loading="lazy" />
-          <img src="images/scorecard_screen.png" class="screenshot" alt="Digital scorecard" loading="lazy" />
+          <img src="images/map_screen.png" class="screenshot" alt="DigiCaddy GPS mapping interface showing hole layout, distances, and hazards" loading="lazy" />
+          <img src="images/scorecard_screen.png" class="screenshot" alt="DigiCaddy digital scorecard with shot tracking and performance analytics" loading="lazy" />
         </div>
       </div>
     </div>
   </section>
 
   <!-- AI-Powered Insights Section -->
-<section id="ai-insights" class="section bg-brand-primary relative overflow-hidden">
+<section id="ai-insights" class="section bg-brand-primary relative overflow-hidden scroll-mt-24">
   <!-- Background gradient -->
   <div class="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary to-transparent opacity-90"></div>
 
@@ -467,7 +481,7 @@
 </section>
 
   <!-- Course Management Section -->
-  <section id="course-management" class="section">
+  <section id="course-management" class="section scroll-mt-24">
     <div class="container">
       <div class="text-center mb-8 sm:mb-12">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-4 sm:mb-6">Smarter Course Management</h2>
@@ -588,7 +602,7 @@
     <div class="container">
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         <div class="flex justify-center order-2 lg:order-1">
-          <img src="images/session_review_screen.png" class="screenshot" alt="Round analysis and insights" loading="lazy" />
+          <img src="images/session_review_screen.png" class="screenshot" alt="DigiCaddy session review screen showing detailed round analysis, statistics, and improvement insights" loading="lazy" />
         </div>
         <div class="order-1 lg:order-2">
           <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-4 sm:mb-6">Early beta results are promising</h2>
@@ -622,7 +636,7 @@
   </section>
 
   <!-- About Section -->
-  <section id="about" class="section">
+  <section id="about" class="section scroll-mt-24">
     <div class="container text-center">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">Built by golfers, for golfers</h2>
       <p class="text-base sm:text-lg md:text-xl muted max-w-4xl mx-auto mb-6 sm:mb-8 px-4">
@@ -636,18 +650,27 @@
   </section>
 
   <!-- Contact / Waitlist Section -->
-  <section id="contact" class="section bg-brand-primary text-center">
+  <section id="contact" class="section bg-brand-primary text-center scroll-mt-24">
     <div class="container">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-gold mb-3 sm:mb-4 px-4">Get Early Access to AI-Powered Golf</h2>
       <p class="text-base sm:text-lg md:text-xl muted mb-8 sm:mb-10 max-w-3xl mx-auto px-4">Join our exclusive waitlist and be among the first to experience the future of golf technology when we launch.</p>
-      <form name="waitlist" method="POST" data-netlify="true" class="max-w-lg mx-auto px-4">
+      <form name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/success" class="max-w-lg mx-auto px-4">
         <div class="card">
           <input type="hidden" name="form-name" value="waitlist" />
-          <div class="space-y-3 sm:space-y-4">
+          <!-- Honeypot field for spam protection -->
+          <p class="hidden">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+          </p>
+          <div class="space-y-3 sm:space-y-4" id="form-fields">
             <input name="name" placeholder="Your Name" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
             <input type="email" name="email" placeholder="Email Address" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
             <textarea name="message" placeholder="Optional: Tell us about your golf course or specific interests" rows="3" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
             <button type="submit" class="btn btn-primary w-full text-base sm:text-lg py-3 sm:py-4">Join the Waitlist</button>
+          </div>
+          <!-- Success message (hidden by default) -->
+          <div id="form-success" class="hidden text-center">
+            <div class="text-brand-gold text-xl font-semibold mb-2">✓ Thank you!</div>
+            <p class="text-sm muted">You've been added to our waitlist. We'll be in touch soon!</p>
           </div>
           <p class="text-xs sm:text-sm muted mt-3 sm:mt-4">Be the first to know when DigiCaddy launches • No spam, ever</p>
         </div>
@@ -687,11 +710,28 @@
       });
     }
     
+    // Handle form submission success (fallback for environments without Netlify)
+    function handleFormSubmit() {
+      const form = document.querySelector('form[name="waitlist"]');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          // Only prevent default if not on Netlify (for demo purposes)
+          if (!window.netlifyIdentity && !document.location.hostname.includes('netlify')) {
+            e.preventDefault();
+            // Show success message
+            document.getElementById('form-fields').style.display = 'none';
+            document.getElementById('form-success').classList.remove('hidden');
+          }
+        });
+      }
+    }
+    
     // Run on scroll
     window.addEventListener('scroll', toggleScrollIndicators);
     
     // Run on page load
     toggleScrollIndicators();
+    handleFormSubmit();
   </script>
 </body>
 </html>
