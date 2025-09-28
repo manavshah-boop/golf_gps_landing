@@ -245,6 +245,45 @@
       .management-card { transition: none; }
       .management-card:hover { transform: none; }
     }
+    
+    /* Form Validation Styles */
+    .form-field {
+      position: relative;
+    }
+    .form-error {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .form-field.error input,
+    .form-field.error textarea {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+    .form-field.success input,
+    .form-field.success textarea {
+      border-color: #10b981 !important;
+    }
+    .form-field.error .form-error {
+      display: block;
+    }
+    .form-loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #0A1A2F;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="font-sans antialiased">
@@ -662,15 +701,59 @@
             <label>Don't fill this out if you're human: <input name="bot-field" /></label>
           </p>
           <div class="space-y-3 sm:space-y-4" id="form-fields">
-            <input name="name" placeholder="Your Name" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
-            <input type="email" name="email" placeholder="Email Address" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors" required />
-            <textarea name="message" placeholder="Optional: Tell us about your golf course or specific interests" rows="3" class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
-            <button type="submit" class="btn btn-primary w-full text-base sm:text-lg py-3 sm:py-4">Join the Waitlist</button>
+            <div class="form-field">
+              <input 
+                id="name" 
+                name="name" 
+                type="text"
+                placeholder="Your Name" 
+                class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-all duration-200" 
+                required 
+                minlength="2"
+                maxlength="50"
+              />
+              <div class="form-error" id="name-error">Please enter your full name (at least 2 characters)</div>
+            </div>
+            
+            <div class="form-field">
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                placeholder="Email Address" 
+                class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-all duration-200" 
+                required 
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              />
+              <div class="form-error" id="email-error">Please enter a valid email address</div>
+            </div>
+            
+            <div class="form-field">
+              <textarea 
+                id="message" 
+                name="message" 
+                placeholder="Optional: Tell us about your golf course or specific interests" 
+                rows="3" 
+                class="w-full p-3 sm:p-4 rounded-lg text-black text-base sm:text-lg border-2 border-gray-200 focus:border-brand-gold focus:outline-none transition-all duration-200 resize-none"
+                maxlength="500"
+              ></textarea>
+              <div class="form-error" id="message-error">Message is too long (maximum 500 characters)</div>
+              <div class="text-xs text-gray-500 mt-1" id="message-counter">0/500 characters</div>
+            </div>
+            
+            <button type="submit" id="submit-btn" class="btn btn-primary w-full text-base sm:text-lg py-3 sm:py-4">
+              <span id="submit-text">Join the Waitlist</span>
+              <span id="submit-loading" class="hidden">
+                <span class="spinner"></span>
+                <span class="ml-2">Submitting...</span>
+              </span>
+            </button>
           </div>
           <!-- Success message (hidden by default) -->
           <div id="form-success" class="hidden text-center">
             <div class="text-brand-gold text-xl font-semibold mb-2">✓ Thank you!</div>
-            <p class="text-sm muted">You've been added to our waitlist. We'll be in touch soon!</p>
+            <p class="text-sm muted mb-4">You've been added to our waitlist. We'll be in touch soon!</p>
+            <button type="button" id="form-reset" class="text-brand-gold hover:text-white text-sm underline transition-colors">Submit another email</button>
           </div>
           <p class="text-xs sm:text-sm muted mt-3 sm:mt-4">Be the first to know when DigiCaddy launches • No spam, ever</p>
         </div>
@@ -708,20 +791,209 @@
           indicator.style.visibility = 'hidden';
         }
       });
+      
+      // Handle form reset
+      const resetBtn = document.getElementById('form-reset');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          document.getElementById('form-success').classList.add('hidden');
+          document.getElementById('form-fields').style.display = 'block';
+          
+          // Reset form state
+          form.reset();
+          form.classList.remove('form-loading');
+          submitBtn.disabled = false;
+          submitText.classList.remove('hidden');
+          submitLoading.classList.add('hidden');
+          
+          form.querySelectorAll('.form-field').forEach(field => {
+            field.classList.remove('error', 'success');
+          });
+          document.getElementById('message-counter').textContent = '0/500 characters';
+          document.getElementById('message-counter').style.color = '#6b7280';
+          
+          // Focus on name field
+          nameField.focus();
+        });
+      }
     }
     
-    // Handle form submission success (fallback for environments without Netlify)
+    // Form validation functions
+    function validateField(field, errorElement, validationFn, errorMessage) {
+      const isValid = validationFn(field.value.trim());
+      const fieldContainer = field.closest('.form-field');
+      
+      if (isValid) {
+        fieldContainer.classList.remove('error');
+        fieldContainer.classList.add('success');
+        return true;
+      } else {
+        fieldContainer.classList.remove('success');
+        fieldContainer.classList.add('error');
+        errorElement.textContent = errorMessage;
+        return false;
+      }
+    }
+    
+    function validateName(name) {
+      return name.length >= 2 && name.length <= 50 && /^[a-zA-Z\s'-]+$/.test(name);
+    }
+    
+    function validateEmail(email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email) && email.length <= 100;
+    }
+    
+    function validateMessage(message) {
+      return message.length <= 500;
+    }
+    
+    // Handle form validation and submission
     function handleFormSubmit() {
       const form = document.querySelector('form[name="waitlist"]');
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          // Only prevent default if not on Netlify (for demo purposes)
-          if (!window.netlifyIdentity && !document.location.hostname.includes('netlify')) {
-            e.preventDefault();
-            // Show success message
+      const nameField = document.getElementById('name');
+      const emailField = document.getElementById('email');
+      const messageField = document.getElementById('message');
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const submitLoading = document.getElementById('submit-loading');
+      
+      if (!form) return;
+      
+      // Real-time validation
+      nameField.addEventListener('blur', function() {
+        validateField(
+          this, 
+          document.getElementById('name-error'),
+          validateName,
+          'Please enter your full name (2-50 characters, letters only)'
+        );
+      });
+      
+      nameField.addEventListener('input', function() {
+        if (this.closest('.form-field').classList.contains('error')) {
+          validateField(
+            this, 
+            document.getElementById('name-error'),
+            validateName,
+            'Please enter your full name (2-50 characters, letters only)'
+          );
+        }
+      });
+      
+      emailField.addEventListener('blur', function() {
+        validateField(
+          this,
+          document.getElementById('email-error'),
+          validateEmail,
+          'Please enter a valid email address'
+        );
+      });
+      
+      emailField.addEventListener('input', function() {
+        if (this.closest('.form-field').classList.contains('error')) {
+          validateField(
+            this,
+            document.getElementById('email-error'),
+            validateEmail,
+            'Please enter a valid email address'
+          );
+        }
+      });
+      
+      messageField.addEventListener('input', function() {
+        const charCount = this.value.length;
+        const errorElement = document.getElementById('message-error');
+        const counterElement = document.getElementById('message-counter');
+        
+        // Update character counter
+        counterElement.textContent = `${charCount}/500 characters`;
+        
+        if (charCount > 500) {
+          this.closest('.form-field').classList.add('error');
+          errorElement.textContent = `Message is too long (${charCount}/500 characters)`;
+          counterElement.style.color = '#ef4444';
+        } else {
+          this.closest('.form-field').classList.remove('error');
+          counterElement.style.color = charCount > 450 ? '#f59e0b' : '#6b7280';
+        }
+      });
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        // Validate all fields
+        const nameValid = validateField(
+          nameField, 
+          document.getElementById('name-error'),
+          validateName,
+          'Please enter your full name (2-50 characters, letters only)'
+        );
+        
+        const emailValid = validateField(
+          emailField,
+          document.getElementById('email-error'),
+          validateEmail,
+          'Please enter a valid email address'
+        );
+        
+        const messageValid = validateField(
+          messageField,
+          document.getElementById('message-error'),
+          validateMessage,
+          'Message is too long (maximum 500 characters)'
+        );
+        
+        // If validation fails, prevent submission
+        if (!nameValid || !emailValid || !messageValid) {
+          e.preventDefault();
+          // Focus on first invalid field
+          const firstError = form.querySelector('.form-field.error input, .form-field.error textarea');
+          if (firstError) {
+            firstError.focus();
+          }
+          return false;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        form.classList.add('form-loading');
+        submitText.classList.add('hidden');
+        submitLoading.classList.remove('hidden');
+        
+        // Handle success (fallback for non-Netlify environments)
+        if (!window.netlifyIdentity && !document.location.hostname.includes('netlify')) {
+          e.preventDefault();
+          
+          // Simulate processing time
+          setTimeout(() => {
             document.getElementById('form-fields').style.display = 'none';
             document.getElementById('form-success').classList.remove('hidden');
-          }
+          }, 1500);
+        }
+      });
+      
+      // Handle form reset
+      const resetBtn = document.getElementById('form-reset');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          document.getElementById('form-success').classList.add('hidden');
+          document.getElementById('form-fields').style.display = 'block';
+          
+          // Reset form state
+          form.reset();
+          form.classList.remove('form-loading');
+          submitBtn.disabled = false;
+          submitText.classList.remove('hidden');
+          submitLoading.classList.add('hidden');
+          
+          form.querySelectorAll('.form-field').forEach(field => {
+            field.classList.remove('error', 'success');
+          });
+          document.getElementById('message-counter').textContent = '0/500 characters';
+          document.getElementById('message-counter').style.color = '#6b7280';
+          
+          // Focus on name field
+          nameField.focus();
         });
       }
     }
